@@ -93,6 +93,7 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
   attr :search_cbox_titles, :string,  default:  "Clear filter of selected items|Filter selected items",
                                                        doc: "Titles `on|off` of the checked icon in the search checkbox"
   attr :filter_side,        :atom,    default:  :client, values: [:client, :server]
+  attr :persist_search,     :boolean, default:  false, doc: "Persist search filter when choosing items"
 
   def multi_select(assigns) do
     assigns = assign(assigns, :options, (for o <- assigns.options, do: Option.new(o)))
@@ -237,7 +238,7 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
     <div id={@id} style={} class={build_class([@class, css(@id, :component)])} {@top_rest}>
       <div id={@id <> "-main"} tabindex="0" class={css(@id, :main, true)} title={@title} {@main_rest}>
         <div id={@id <> "-tags"} class={css(@id, :tags)} phx-hook="MultiSelectHook"
-             data-target={@myself} data-wrap={Atom.to_string(@wrap)} data-filterside={@filter_side} {@tags_rest}>
+             data-target={@myself} data-wrap={Atom.to_string(@wrap)} data-filterside={@filter_side} data-persistsearch={Atom.to_string(@persist_search)} {@tags_rest}>
           <%= cond do %>
             <% @selected_count == 0 -> %>
               <span class={css(@id, :placeholder)}><%= @placeholder %></span>
